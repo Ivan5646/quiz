@@ -32,7 +32,7 @@ function getQuestion(){ // display question and choices. And all the functionali
       if(qInd>0){  
         myBox = document.getElementById("myCheckbox") // get the user's answer
         if(myBox.checked == true){
-          console.log("you checked the box");
+          console.log("you checked the box, qInd");
           userAnswerVar = myBox.nextSibling.innerHTML; 
           allQuestions[qInd-1].userAnswer = userAnswerVar; // create a new property with user's answer
         }
@@ -64,11 +64,11 @@ function getQuestion(){ // display question and choices. And all the functionali
       choiceSpan.appendChild(choiceText);                      // append text to the span 
       document.getElementById("choiceBlock").appendChild(choiceSpan);
     } // the end of for loop
-  }else{
+  }else{    
     var allCheckBoxes = document.getElementsByTagName("input");
     for(var i=0; i<allCheckBoxes.length; i++){
       if(allCheckBoxes[i].checked == true){    
-        console.log("you checked the box");
+        console.log("else clause: you checked the box");
         userAnswerElse = allCheckBoxes[i].nextSibling.innerHTML; 
         allQuestions[qInd-1].userAnswer = userAnswerElse;
       }
@@ -91,7 +91,14 @@ function getQuestion(){ // display question and choices. And all the functionali
     document.getElementById("questionBlock").innerHTML = "Your result is " + result + "%";  // display result
   }
   qInd++; 
+  console.log("qInd after incrementation eqauls to " + qInd);
+  if(qInd==5){
+    document.getElementById("next").innerHTML = "Finish"; console.log("change next to finish");
+  }else{
+    document.getElementById("next").innerHTML = "next";
+  }
 } // the end of the getQuestion()
+
 
 function back(){
   document.getElementById("myPId").innerHTML = allQuestions[qInd-2].question;  // remove question. insert the required question
@@ -120,45 +127,59 @@ function back(){
     document.getElementById("choiceBlock").appendChild(choiceSpan);
   }
   qInd--;
+  if(qInd==5){  // code repetition 
+    document.getElementById("next").innerHTML = "Finish"; console.log("change next to finish");
+  }else{
+    document.getElementById("next").innerHTML = "next";
+  }
 } // the end of back()
 
 var mySeq = document.querySelectorAll("#seqSpan");
-function navigate(){ // need to get the value of the clicked span
-  var navSpan = event.target.innerHTML;
+function navigate(){ 
+  var navSpan = event.target.innerHTML; // get the value of the clicked span
   console.log(navSpan);
 
-  for(var choiceInd=0; choiceInd<allQuestions[navSpan-1].choices.length; choiceInd++){
-    var checkboxEl = document.getElementById("myCheckbox"); //removes the checkboxes one by one 
-    checkboxEl.parentNode.removeChild(checkboxEl);
-    var choiceEl = document.getElementById("choiceId"); // remove choices
-    choiceEl.parentNode.removeChild(choiceEl);
+  if(allQuestions[navSpan-1].userAnswer){ // make user to navigate only to answered questions
+    for(var choiceInd=0; choiceInd<allQuestions[navSpan-1].choices.length; choiceInd++){
+      var checkboxEl = document.getElementById("myCheckbox"); //removes the checkboxes one by one 
+      checkboxEl.parentNode.removeChild(checkboxEl);
+      var choiceEl = document.getElementById("choiceId"); // remove choices
+      choiceEl.parentNode.removeChild(choiceEl);
 
-    // display required question and stuff
-    document.getElementById("myPId").innerHTML = allQuestions[navSpan-1].question; // inserts text from the array
-    var answer = allQuestions[navSpan-1].userAnswer // Display checkboxes
-    if(answer==allQuestions[navSpan-1].choices[choiceInd]){ // display user's checked checkbox
-      var myCheckbox = document.createElement("input"); 
-      myCheckbox.setAttribute("type", "checkbox");
-      myCheckbox.checked = true // set the checked property. Or  myCheckbox.checked = "checked"
-      myCheckbox.setAttribute("id", "myCheckbox");
-      document.getElementById("choiceBlock").appendChild(myCheckbox);
-    }else{ 
-      var myCheckbox = document.createElement("input"); // display unchecked checkboxes
-      myCheckbox.setAttribute("type", "checkbox");
-      myCheckbox.setAttribute("id", "myCheckbox");
-      document.getElementById("choiceBlock").appendChild(myCheckbox);
+      // display required question and stuff
+      document.getElementById("myPId").innerHTML = allQuestions[navSpan-1].question; // inserts text from the array
+      var answer = allQuestions[navSpan-1].userAnswer // Display checkboxes
+      if(answer==allQuestions[navSpan-1].choices[choiceInd]){ // display user's checked checkbox
+        var myCheckbox = document.createElement("input"); 
+        myCheckbox.setAttribute("type", "checkbox");
+        myCheckbox.checked = true // set the checked property. Or  myCheckbox.checked = "checked"
+        myCheckbox.setAttribute("id", "myCheckbox");
+        document.getElementById("choiceBlock").appendChild(myCheckbox);
+      }else{ 
+        var myCheckbox = document.createElement("input"); // display unchecked checkboxes
+        myCheckbox.setAttribute("type", "checkbox");
+        myCheckbox.setAttribute("id", "myCheckbox");
+        document.getElementById("choiceBlock").appendChild(myCheckbox);
+      }
+
+      var currentChoice = allQuestions[navSpan-1].choices[choiceInd]; // Display choices. Get the choice item. 
+      var choiceSpan = document.createElement("span");             // create span element
+      choiceSpan.setAttribute("id", "choiceId");
+      var choiceText = document.createTextNode(currentChoice);   // create text node with choice item as text
+      choiceSpan.appendChild(choiceText);                      // append text to the span 
+      document.getElementById("choiceBlock").appendChild(choiceSpan);
+
+      qInd = navSpan; // for proper navigation        
+    } // the end of for loop
+    if(navSpan==5){  // code repetition 
+      document.getElementById("next").innerHTML = "Finish"; console.log("change next to finish");
+    }else{
+      document.getElementById("next").innerHTML = "next";
     }
+  } // the end of if condition
 
-    var currentChoice = allQuestions[navSpan-1].choices[choiceInd]; // Display choices. Get the choice item. 
-    var choiceSpan = document.createElement("span");             // create span element
-    choiceSpan.setAttribute("id", "choiceId");
-    var choiceText = document.createTextNode(currentChoice);   // create text node with choice item as text
-    choiceSpan.appendChild(choiceText);                      // append text to the span 
-    document.getElementById("choiceBlock").appendChild(choiceSpan);
-  } // the end of for loop
 
-  
-}
+} // the end of navigate()
 
 document.getElementById("next").addEventListener("click", getQuestion);
 document.getElementById("back").addEventListener("click", back);

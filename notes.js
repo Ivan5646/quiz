@@ -76,11 +76,12 @@ var allQuestions = [
 allQuestions[0].userAnswer = "this is the answer";
  - Why qInd-1 in allQuestions[qInd-1].userAnswer
 
-
+if(qInd==5){document.getElementById("next").innerHTML = "Finish"}
 
 
 Things to do 
-- when all questions are nswered, if you navigate to any question, not necessearaliy the last one, and you click "next" you wil be directed to the result
+- make user to navigate only answered questions
+- ?when all questions are answered (checked), if you navigate to any question, not necessearaliy the last one, and you click "next" you wil be directed to the result
 - allow any number of questions and answers
 - if you check and do not click next, checked box won't be saved.
 
