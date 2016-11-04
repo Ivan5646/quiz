@@ -122,17 +122,45 @@ function back(){
   qInd--;
 } // the end of back()
 
+var mySeq = document.querySelectorAll("#seqSpan");
 function navigate(){ // need to get the value of the clicked span
+  var navSpan = event.target.innerHTML;
+  console.log(navSpan);
 
+  for(var choiceInd=0; choiceInd<allQuestions[navSpan-1].choices.length; choiceInd++){
+    var checkboxEl = document.getElementById("myCheckbox"); //removes the checkboxes one by one 
+    checkboxEl.parentNode.removeChild(checkboxEl);
+    var choiceEl = document.getElementById("choiceId"); // remove choices
+    choiceEl.parentNode.removeChild(choiceEl);
+
+    // display required question and stuff
+    document.getElementById("myPId").innerHTML = allQuestions[navSpan-1].question; // inserts text from the array
+    var answer = allQuestions[navSpan-1].userAnswer // Display checkboxes
+    if(answer==allQuestions[navSpan-1].choices[choiceInd]){ // display user's checked checkbox
+      var myCheckbox = document.createElement("input"); 
+      myCheckbox.setAttribute("type", "checkbox");
+      myCheckbox.checked = true // set the checked property. Or  myCheckbox.checked = "checked"
+      myCheckbox.setAttribute("id", "myCheckbox");
+      document.getElementById("choiceBlock").appendChild(myCheckbox);
+    }else{ 
+      var myCheckbox = document.createElement("input"); // display unchecked checkboxes
+      myCheckbox.setAttribute("type", "checkbox");
+      myCheckbox.setAttribute("id", "myCheckbox");
+      document.getElementById("choiceBlock").appendChild(myCheckbox);
+    }
+
+    var currentChoice = allQuestions[navSpan-1].choices[choiceInd]; // Display choices. Get the choice item. 
+    var choiceSpan = document.createElement("span");             // create span element
+    choiceSpan.setAttribute("id", "choiceId");
+    var choiceText = document.createTextNode(currentChoice);   // create text node with choice item as text
+    choiceSpan.appendChild(choiceText);                      // append text to the span 
+    document.getElementById("choiceBlock").appendChild(choiceSpan);
+  } // the end of for loop
+
+  
 }
 
-document.getElementById("next").addEventListener("click", function(){
-  getQuestion();
-});
-document.getElementById("back").addEventListener("click", function(){
-  back();
-});
-/*document.getElementById("seqSpan").addEventListener("click", function(){
-  navigate();
-});*/
+document.getElementById("next").addEventListener("click", getQuestion);
+document.getElementById("back").addEventListener("click", back);
+document.getElementById("navigation").addEventListener("click", navigate);
 

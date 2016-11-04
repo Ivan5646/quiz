@@ -9,6 +9,21 @@ allQuestions[0].choices[0]
 
 
 Problems:
+- need to get the value of the clicked span SOLVED. You got to be a fucking idiot - navSpan = event.target.innerHTML;
+  navSpan = event.target.tagName; 
+  content = navSpan.innerHTML; // did not work
+
+document.getElementById("navigation").nextSibling // giving #text
+
+document.querySelectorAll("#seqSpan") // gives an array
+
+event.target.value; ?
+event.target.name; ?
+event.target.tagName;
+
+
+
+
 - cannot display a question through a function and click SOLVED
  function getQuestion(/*question/*, choice*/){ // display question and choices
   console.log("getQuestion message");
@@ -64,16 +79,17 @@ allQuestions[0].userAnswer = "this is the answer";
 
 
 
-Things to do
-- if you check and do not click next, checked box won't be saved. 
+Things to do 
+- when all questions are nswered, if you navigate to any question, not necessearaliy the last one, and you click "next" you wil be directed to the result
 - allow any number of questions and answers
-
+- if you check and do not click next, checked box won't be saved.
 
 before release
 - add var to make local variables
 - possibly give question function as a callback to the cick event?
 
 Things that are done
+- diplay question navigation bar
 - when you go back then next checkboxex are not checked
 - copmare user's answer with the correct answer 
 - function to get the answer Done
@@ -87,8 +103,6 @@ SOLVED by: var allCheckBoxes = document.getElementsByTagName("input"); if(allChe
 
 
 Things to improve
-- diplay question navigation bar
-
 
 
 Improve Your Quiz Application From Earlier:
