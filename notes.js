@@ -1,5 +1,11 @@
-var allQuestions = [{question: "Who is Prime Minister of the United Kingdom?", choices: ["David Cameron", "Gordon Brown", 
-"Winston Churchill", "Tony Blair"], correctAnswer:0}];
+var allQuestions = [
+  {sequence: 1, question: "1. Who is Prime Minister of the United Kingdom?", choices: ["Theresa May", "Gordon Brown", "Winston Churchill", "Tony Blair"], 
+  correctAnswer:"Theresa May"},
+  {sequence: 2, question: "2. What is the capital of the Great Britain?", choices: ["Paris", "Warsaw", "London", "Liverpool", "Budapest"], correctAnswer:"London"},
+  {sequence: 3, question: "3. What is the capital of the Russian Federation?", choices: ["Prague", "Minsk", "Washington", "Moscow"], correctAnswer:"Moscow"},
+  {sequence: 4, question: "4. Who was the first man in space", choices: ["Armstrong", "Titov", "Gagarin", "Gorbachev"], correctAnswer:"Gagarin"},
+  {sequence: 5, question: "5. Who is the President of the USA", choices: ["Putin", "Psaki", "Clinton", "Obama"], correctAnswer:"Obama"},
+];
 
 // to access a property of an object...
 allQuestions[0].choices[0]
@@ -78,11 +84,11 @@ allQuestions[0].userAnswer = "this is the answer";
 
 if(qInd==5){document.getElementById("next").innerHTML = "Finish"}
 
+qInd = navSpan-1;
+
 
 Things to do 
-- make user to navigate only answered questions
-- ?when all questions are answered (checked), if you navigate to any question, not necessearaliy the last one, and you click "next" you wil be directed to the result
-- allow any number of questions and answers
+- allow any number of choices and multiple answers.
 - if you check and do not click next, checked box won't be saved.
 
 before release
@@ -90,9 +96,11 @@ before release
 - possibly give question function as a callback to the cick event?
 
 Things that are done
+- when all questions are answered (checked), if you navigate to any question, not necessearaliy the last one, and you click "next" you wil be directed to the result
+- make user to navigate only answered questions
 - diplay question navigation bar
 - when you go back then next checkboxex are not checked
-- copmare user's answer with the correct answer 
+- copmare user s answer with the correct answer 
 - function to get the answer Done
 - last question problem. Not getting answer. 
 At the last interation I got qInd == 5, why?. 

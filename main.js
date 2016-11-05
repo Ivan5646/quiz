@@ -1,10 +1,10 @@
 var allQuestions = [
-  {sequence: 1, question: "1. Who is Prime Minister of the United Kingdom?", choices: ["Theresa May", "Gordon Brown", "Winston Churchill", "Tony Blair"], 
+  {sequence: 1, question: "0. Who is Prime Minister of the United Kingdom?", choices: ["Theresa May", "Gordon Brown", "Winston Churchill", "Tony Blair"], 
   correctAnswer:"Theresa May"},
-  {sequence: 2, question: "2. What is the capital of the Great Britain?", choices: ["Paris", "Warsaw", "London", "Liverpool"], correctAnswer:"London"},
-  {sequence: 3, question: "3. What is the capital of the Russian Federation?", choices: ["Prague", "Minsk", "Washington", "Moscow"], correctAnswer:"Moscow"},
-  {sequence: 4, question: "4. Who was the first man in space", choices: ["Armstrong", "Titov", "Gagarin", "Gorbachev"], correctAnswer:"Gagarin"},
-  {sequence: 5, question: "5. Who is the President of the USA", choices: ["Putin", "Psaki", "Clinton", "Obama"], correctAnswer:"Obama"},
+  {sequence: 2, question: "1. What is the capital of the Great Britain?", choices: ["Paris", "Warsaw", "London", "Liverpool", "Budapest"], correctAnswer:"London"},
+  {sequence: 3, question: "2. What is the capital of the Russian Federation?", choices: ["Prague", "Minsk", "Washington", "Moscow"], correctAnswer:"Moscow"},
+  {sequence: 4, question: "3. Who was the first man in space", choices: ["Armstrong", "Leonov", "Titov", "Gagarin", "Gorbachev"], correctAnswer:"Gagarin"},
+  {sequence: 5, question: "4. Who is the President of the USA", choices: ["Putin", "Psaki", "Clinton", "Obama"], correctAnswer:"Obama"},
 ];
 
 for(var i=0; i<allQuestions.length; i++){  // Display navigation
@@ -36,12 +36,7 @@ function getQuestion(){ // display question and choices. And all the functionali
           userAnswerVar = myBox.nextSibling.innerHTML; 
           allQuestions[qInd-1].userAnswer = userAnswerVar; // create a new property with user's answer
         }
-
-        var checkboxEl = document.getElementById("myCheckbox"); //removes the checkboxes one by one
-        checkboxEl.parentNode.removeChild(checkboxEl);
-        var choiceEl = document.getElementById("choiceId"); // remove choices
-        choiceEl.parentNode.removeChild(choiceEl);
-      }
+      } // qInd>0 condition
 
       var answer = allQuestions[qInd].userAnswer // Display checkboxes
       if(answer==allQuestions[qInd].choices[choiceInd]){ // display user's checked checkbox
@@ -161,7 +156,6 @@ function navigate(){
         myCheckbox.setAttribute("id", "myCheckbox");
         document.getElementById("choiceBlock").appendChild(myCheckbox);
       }
-
       var currentChoice = allQuestions[navSpan-1].choices[choiceInd]; // Display choices. Get the choice item. 
       var choiceSpan = document.createElement("span");             // create span element
       choiceSpan.setAttribute("id", "choiceId");
@@ -177,11 +171,20 @@ function navigate(){
       document.getElementById("next").innerHTML = "next";
     }
   } // the end of if condition
-
-
 } // the end of navigate()
 
+function remove(){
+  for(var choiceInd=0; choiceInd<allQuestions[qInd-2].choices.length; choiceInd++){ // removes what was added
+    var checkboxEl = document.getElementById("myCheckbox"); //removes the checkboxes one by one
+    checkboxEl.parentNode.removeChild(checkboxEl);
+    var choiceEl = document.getElementById("choiceId"); // remove choices
+    choiceEl.parentNode.removeChild(choiceEl);
+  }
+}
+
+
 document.getElementById("next").addEventListener("click", getQuestion);
+document.getElementById("next").addEventListener("click", remove);
 document.getElementById("back").addEventListener("click", back);
 document.getElementById("navigation").addEventListener("click", navigate);
 
