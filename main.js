@@ -22,20 +22,29 @@ function getQuestion(){ // display question and choices. And all the functionali
   if (qInd===null || qInd===undefined){ 
     qInd = 0;
   }
-  if(qInd<allQuestions.length){  // allQuestions.length == 5      Get and display question.
-    var myP = document.createElement("p");
+  if(qInd<allQuestions.length){  // allQuestions.length == 5      
+    var myP = document.createElement("p"); // Get and display question.
     myP.setAttribute("id", "myPId");
     document.getElementById("questionBlock").appendChild(myP); // appends empty paragraph
     document.getElementById("myPId").innerHTML = allQuestions[qInd].question; // inserts text from the array
 
-    for(var choiceInd=0; choiceInd<allQuestions[qInd].choices.length; choiceInd++){ // Get and display choices.
-      if(qInd>0){  
-        myBox = document.getElementById("myCheckbox") // get the user's answer
-        if(myBox.checked == true){
-          console.log("you checked the box, qInd");
-          userAnswerVar = myBox.nextSibling.innerHTML; 
+    if(qInd>0){ // prevent from executing this block when the getQuestion() runs for the first time
+      // get all checkboxes at once and interate through them to get the user's answer
+      var myBoxes = document.getElementsByTagName("input");
+      var boxesLength = myBoxes.length;
+      var i=0;
+      while(i<boxesLength){
+        if(myBoxes[i].checked == true){
+          console.log("you checked the box");
+          userAnswerVar = myBoxes[i].nextSibling.innerHTML; 
           allQuestions[qInd-1].userAnswer = userAnswerVar; // create a new property with user's answer
         }
+        i++;
+      } 
+    }
+
+    for(var choiceInd=0; choiceInd<allQuestions[qInd].choices.length; choiceInd++){ // Get and display choices. itereates through choices
+      if(qInd>0){  // prevent from executing this block when the getQuestion() runs for the first time
       } // qInd>0 condition
 
       var answer = allQuestions[qInd].userAnswer // Display checkboxes
@@ -78,7 +87,6 @@ function getQuestion(){ // display question and choices. And all the functionali
      numOfCorrectAnswers = 0;
     for(var a=0; a<allQuestions.length; a++){
       if(allQuestions[a].userAnswer===allQuestions[a].correctAnswer){  // compare answers
-        var numOfQuestion = allQuestions[a];
         numOfCorrectAnswers++;
       }
     }
@@ -133,10 +141,8 @@ var mySeq = document.querySelectorAll("#seqSpan");
 function navigate(){ 
   var navSpan = event.target.innerHTML; // get the value of the clicked span
   console.log(navSpan);
-
   if(allQuestions[navSpan-1].userAnswer){ // make user to navigate only to answered questions
-
-    var navBoxes = document.getElementsByTagName("input"); // need to remove all check boxes
+    var navBoxes = document.getElementsByTagName("input"); // Remove all check boxes.
     var length = navBoxes.length
     for(var i=0; i<length; i++){
       var myBox = document.getElementById("myCheckbox"); // remove checkboxes
@@ -146,11 +152,6 @@ function navigate(){
     }
 
     for(var choiceInd=0; choiceInd<allQuestions[navSpan-1].choices.length; choiceInd++){
-      /*var checkboxEl = document.getElementById("myCheckbox"); //removes the checkboxes one by one 
-      checkboxEl.parentNode.removeChild(checkboxEl);
-      var choiceEl = document.getElementById("choiceId"); // remove choices
-      choiceEl.parentNode.removeChild(choiceEl);*/
-
       // display required question and stuff
       document.getElementById("myPId").innerHTML = allQuestions[navSpan-1].question; // inserts text from the array
       var answer = allQuestions[navSpan-1].userAnswer // Display checkboxes
@@ -183,8 +184,9 @@ function navigate(){
   } // the end of if condition
 } // the end of navigate()
 
+
 function remove(){
-  for(var choiceInd=0; choiceInd<allQuestions[qInd-2].choices.length; choiceInd++){ // removes what was added
+  for(var choiceInd=0; choiceInd<allQuestions[qInd-2].choices.length; choiceInd++){ // qInd-2 removes what was added
     var checkboxEl = document.getElementById("myCheckbox"); //removes the checkboxes one by one
     checkboxEl.parentNode.removeChild(checkboxEl);
     var choiceEl = document.getElementById("choiceId"); // remove choices
