@@ -1,5 +1,5 @@
 var allQuestions = [
-  {sequence: 1, question: "0. Who is Prime Minister of the United Kingdom?", choices: ["Theresa May", "Gordon Brown", "Winston Churchill", "Tony Blair"], 
+  {sequence: 1, question: "0. Who is Prime Minister of the United Kingdom?", choices: ["Theresa May", "Winston Churchill", "Tony Blair"], 
   correctAnswer:"Theresa May"},
   {sequence: 2, question: "1. What is the capital of the Great Britain?", choices: ["Paris", "Warsaw", "London", "Liverpool", "Budapest"], correctAnswer:"London"},
   {sequence: 3, question: "2. What is the capital of the Russian Federation?", choices: ["Prague", "Minsk", "Washington", "Moscow"], correctAnswer:"Moscow"},
@@ -135,11 +135,21 @@ function navigate(){
   console.log(navSpan);
 
   if(allQuestions[navSpan-1].userAnswer){ // make user to navigate only to answered questions
-    for(var choiceInd=0; choiceInd<allQuestions[navSpan-1].choices.length; choiceInd++){
-      var checkboxEl = document.getElementById("myCheckbox"); //removes the checkboxes one by one 
-      checkboxEl.parentNode.removeChild(checkboxEl);
+
+    var navBoxes = document.getElementsByTagName("input"); // need to remove all check boxes
+    var length = navBoxes.length
+    for(var i=0; i<length; i++){
+      var myBox = document.getElementById("myCheckbox"); // remove checkboxes
+      myBox.parentNode.removeChild(myBox);
       var choiceEl = document.getElementById("choiceId"); // remove choices
       choiceEl.parentNode.removeChild(choiceEl);
+    }
+
+    for(var choiceInd=0; choiceInd<allQuestions[navSpan-1].choices.length; choiceInd++){
+      /*var checkboxEl = document.getElementById("myCheckbox"); //removes the checkboxes one by one 
+      checkboxEl.parentNode.removeChild(checkboxEl);
+      var choiceEl = document.getElementById("choiceId"); // remove choices
+      choiceEl.parentNode.removeChild(choiceEl);*/
 
       // display required question and stuff
       document.getElementById("myPId").innerHTML = allQuestions[navSpan-1].question; // inserts text from the array
