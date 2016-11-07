@@ -89,15 +89,16 @@ qInd = navSpan-1;
 
 Things to do 
 - allow multiple answers.
+- fix checkboxes appearing 
 - if you check and do not click next, checked box won't be saved.
-styling
-- display different cursor on navigation nums when not allowed to go
+
 
 before release
 - add var to make local variables
 - possibly give question function as a callback to the cick event?
 
 Things that are done
+- display different cursor on navigation nums when not allowed to go
 - allow any number of choices for one question.
 - when all questions are answered (checked), if you navigate to any question, not necessearaliy the last one, and you click "next" you wil be directed to the result
 - make user to navigate only answered questions

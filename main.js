@@ -1,10 +1,14 @@
 var allQuestions = [
   {sequence: 1, question: "0. Who is Prime Minister of the United Kingdom?", choices: ["Theresa May", "Winston Churchill", "Tony Blair"], 
-  correctAnswer:"Theresa May"},
-  {sequence: 2, question: "1. What is the capital of the Great Britain?", choices: ["Paris", "Warsaw", "London", "Liverpool", "Budapest"], correctAnswer:"London"},
-  {sequence: 3, question: "2. What is the capital of the Russian Federation?", choices: ["Prague", "Minsk", "Washington", "Moscow"], correctAnswer:"Moscow"},
-  {sequence: 4, question: "3. Who was the first man in space", choices: ["Armstrong", "Leonov", "Titov", "Gagarin", "Gorbachev"], correctAnswer:"Gagarin"},
-  {sequence: 5, question: "4. Who is the President of the USA", choices: ["Putin", "Psaki", "Clinton", "Obama"], correctAnswer:"Obama"},
+  correctAnswer: ["Theresa May"], userAnswer: []},
+  {sequence: 2, question: "1. Which cities are located in the Great Britain?", choices: ["Paris", "Warsaw", "London", "Liverpool", "Budapest"], 
+  correctAnswer:["London", "Liverpool"], userAnswer: []},
+  {sequence: 3, question: "2. What is the capital of the Russian Federation?", choices: ["Prague", "Minsk", "Washington", "Moscow"], 
+  correctAnswer: ["Moscow"], userAnswer: []},
+  {sequence: 4, question: "3. Who was the first man in space", choices: ["Armstrong", "Leonov", "Titov", "Gagarin", "Gorbachev"], 
+  correctAnswer: ["Gagarin"], userAnswer: []},
+  {sequence: 5, question: "4. Who is the President of the USA", choices: ["Putin", "Psaki", "Clinton", "Obama"], 
+  correctAnswer: ["Obama"], userAnswer: []},
 ];
 
 for(var i=0; i<allQuestions.length; i++){  // Display navigation
@@ -29,14 +33,14 @@ function getQuestion(){ // display question and choices. And all the functionali
     document.getElementById("myPId").innerHTML = allQuestions[qInd].question; // inserts text from the array
 
     if(qInd>0){ // prevent from executing this block when the getQuestion() runs for the first time
-      // get all checkboxes at once and interate through them to get the user's answer
+      // get the user's answer (multiple answer) (get all checkboxes at once and interate through them to)
       var myBoxes = document.getElementsByTagName("input");
-      var boxesLength = myBoxes.length;
+      var boxesLength = myBoxes.length; // save the integer of the myBoxes.length to use it later
       var i=0;
-      while(i<boxesLength){
+      while(i<boxesLength){ // iterate through checkoboxes
         if(myBoxes[i].checked == true){
           userAnswerVar = myBoxes[i].nextSibling.innerHTML; 
-          allQuestions[qInd-1].userAnswer = userAnswerVar; // create a new property with user's answer
+          allQuestions[qInd-1].userAnswer.push(userAnswerVar); // push the user's answer to userAnswer array
         }
         i++;
       } 
@@ -52,24 +56,38 @@ function getQuestion(){ // display question and choices. And all the functionali
       }
     } // end of qInd>0 condition
 
-
-
     for(var choiceInd=0; choiceInd<allQuestions[qInd].choices.length; choiceInd++){ // Get and display choices. itereates through choices
-      if(qInd>0){  // prevent from executing this block when the getQuestion() runs for the first time
-      } // qInd>0 condition
 
-      var answer = allQuestions[qInd].userAnswer // Display checkboxes
-      if(answer==allQuestions[qInd].choices[choiceInd]){ // display user's checked checkbox
-        var myCheckbox = document.createElement("input"); 
-      myCheckbox.setAttribute("type", "checkbox");
-        myCheckbox.checked = true // set the checked property. Or  myCheckbox.checked = "checked"
-        myCheckbox.setAttribute("id", "myCheckbox");
-        document.getElementById("choiceBlock").appendChild(myCheckbox);
-      }else{ 
-        var myCheckbox = document.createElement("input"); // display unchecked checkboxes
+      if(qInd>0){
+        for(var usAnI=0; usAnI<allQuestions[qInd-1].userAnswer.length; usAnI++){ // need to iterate through userAnswer
+          var answer = allQuestions[qInd].userAnswer // Display checkboxes
+          if(answer==allQuestions[qInd].choices[choiceInd]){ // display user's checked checkbox
+            var myCheckbox = document.createElement("input"); 
+          myCheckbox.setAttribute("type", "checkbox");
+            myCheckbox.checked = true // set the checked property. Or  myCheckbox.checked = "checked"
+            myCheckbox.setAttribute("id", "myCheckbox");
+            document.getElementById("choiceBlock").appendChild(myCheckbox);
+          }else{ 
+            var myCheckbox = document.createElement("input"); // display unchecked checkboxes
+            myCheckbox.setAttribute("type", "checkbox");
+            myCheckbox.setAttribute("id", "myCheckbox");
+            document.getElementById("choiceBlock").appendChild(myCheckbox);
+          }
+        }
+      }else{
+        var answer = allQuestions[qInd].userAnswer // Display checkboxes
+        if(answer==allQuestions[qInd].choices[choiceInd]){ // display user's checked checkbox
+          var myCheckbox = document.createElement("input"); 
         myCheckbox.setAttribute("type", "checkbox");
-        myCheckbox.setAttribute("id", "myCheckbox");
-        document.getElementById("choiceBlock").appendChild(myCheckbox);
+          myCheckbox.checked = true // set the checked property. Or  myCheckbox.checked = "checked"
+          myCheckbox.setAttribute("id", "myCheckbox");
+          document.getElementById("choiceBlock").appendChild(myCheckbox);
+        }else{ 
+          var myCheckbox = document.createElement("input"); // display unchecked checkboxes
+          myCheckbox.setAttribute("type", "checkbox");
+          myCheckbox.setAttribute("id", "myCheckbox");
+          document.getElementById("choiceBlock").appendChild(myCheckbox);
+        }
       }
 
       var currentChoice = allQuestions[qInd].choices[choiceInd]; // Display choices. Get the choice item. 
@@ -79,15 +97,19 @@ function getQuestion(){ // display question and choices. And all the functionali
       choiceSpan.appendChild(choiceText);                      // append text to the span 
       document.getElementById("choiceBlock").appendChild(choiceSpan);
     } // the end of for loop
-  }else{    
-    var allCheckBoxes = document.getElementsByTagName("input");
-    for(var i=0; i<allCheckBoxes.length; i++){
-      if(allCheckBoxes[i].checked == true){    
-        console.log("else clause: you checked the box");
-        userAnswerElse = allCheckBoxes[i].nextSibling.innerHTML; 
-        allQuestions[qInd-1].userAnswer = userAnswerElse;
+  }else{ 
+    // to get the user's answer (multiple asnwer)
+    var myBoxes = document.getElementsByTagName("input");
+    var boxesLength = myBoxes.length; // save the integer of the myBoxes.length to use it later
+    var i=0;
+    while(i<boxesLength){ // iterate through checkoboxes
+      if(myBoxes[i].checked == true){
+        userAnswerVar = myBoxes[i].nextSibling.innerHTML; 
+        allQuestions[qInd-1].userAnswer.push(userAnswerVar); // push the user's answer to userAnswer array
       }
+      i++;
     }
+
     document.getElementById("choiceBlock").innerHTML = ""
 
     var nextBtn = document.getElementById("next") // remove next and back buttons    
@@ -95,10 +117,17 @@ function getQuestion(){ // display question and choices. And all the functionali
     var backBtn = document.getElementById("back")   
     backBtn.parentNode.removeChild(backBtn);
 
-     numOfCorrectAnswers = 0;
-    for(var a=0; a<allQuestions.length; a++){
-      if(allQuestions[a].userAnswer===allQuestions[a].correctAnswer){  // compare answers
-        numOfCorrectAnswers++;
+    // compare answers and get the number of correct answers
+    match = []; // for test 
+    numOfCorrectAnswers = 0;
+    for(var a=0; a<allQuestions.length; a++){ // iterates through questions
+      for(var userI=0; userI<allQuestions[a].userAnswer.length; userI++){ // iterate through userAnswer array
+        for(var corI=0; corI<allQuestions[a].correctAnswer.length; corI++){ // iterate through correctAnswer array
+          if(allQuestions[a].userAnswer[userI]===allQuestions[a].correctAnswer[corI]){  
+            numOfCorrectAnswers++;
+            match.push(allQuestions[a].userAnswer[userI]);
+          }
+        }
       }
     }
      result = numOfCorrectAnswers / 5 * 100  // get result in %
