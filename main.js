@@ -9,7 +9,7 @@ var allQuestions = [
 
 for(var i=0; i<allQuestions.length; i++){  // Display navigation
   var seqSpan = document.createElement("span");
-  seqSpan.setAttribute("id", "seqSpan");
+  seqSpan.setAttribute("class", "seqSpan");
   seqSpan.innerHTML = allQuestions[i].sequence;
   document.getElementById("navigation").appendChild(seqSpan);
 }
@@ -35,13 +35,24 @@ function getQuestion(){ // display question and choices. And all the functionali
       var i=0;
       while(i<boxesLength){
         if(myBoxes[i].checked == true){
-          console.log("you checked the box");
           userAnswerVar = myBoxes[i].nextSibling.innerHTML; 
           allQuestions[qInd-1].userAnswer = userAnswerVar; // create a new property with user's answer
         }
         i++;
       } 
-    }
+      // css display different cursor on navigation nums when not allowed to go
+      var myNavs = document.getElementsByClassName("seqSpan"); 
+      var myNavsLength = myNavs.length;
+      var navsI=0;
+      while(navsI<boxesLength){
+        if(allQuestions[qInd-1].userAnswer && myNavs[navsI].innerHTML == qInd){ //  Need to change cursor to pointer only to seqSpan which corresponds to question with answer
+          myNavs[navsI].style.cursor = "pointer"; 
+        }
+        navsI++
+      }
+    } // end of qInd>0 condition
+
+
 
     for(var choiceInd=0; choiceInd<allQuestions[qInd].choices.length; choiceInd++){ // Get and display choices. itereates through choices
       if(qInd>0){  // prevent from executing this block when the getQuestion() runs for the first time
@@ -183,7 +194,6 @@ function navigate(){
     }
   } // the end of if condition
 } // the end of navigate()
-
 
 function remove(){
   for(var choiceInd=0; choiceInd<allQuestions[qInd-2].choices.length; choiceInd++){ // qInd-2 removes what was added

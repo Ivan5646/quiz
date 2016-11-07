@@ -90,6 +90,8 @@ qInd = navSpan-1;
 Things to do 
 - allow multiple answers.
 - if you check and do not click next, checked box won't be saved.
+styling
+- display different cursor on navigation nums when not allowed to go
 
 before release
 - add var to make local variables
