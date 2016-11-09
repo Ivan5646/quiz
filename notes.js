@@ -15,6 +15,8 @@ allQuestions[0].choices[0]
 
 
 Problems:
+- Need to oppsose the execution of displaying the checked boxes and unshcecked boxes
+
 - need to get the value of the clicked span SOLVED. You got to be a fucking idiot - navSpan = event.target.innerHTML;
   navSpan = event.target.tagName; 
   content = navSpan.innerHTML; // did not work
@@ -23,9 +25,7 @@ document.getElementById("navigation").nextSibling // giving #text
 
 document.querySelectorAll("#seqSpan") // gives an array
 
-event.target.value; ?
-event.target.name; ?
-event.target.tagName;
+
 
 
 
@@ -89,7 +89,7 @@ qInd = navSpan-1;
 
 Things to do 
 - allow multiple answers.
-- fix checkboxes appearing 
+- fix checkboxes appearing. If more thn one cb checked they do not appear when using navigation numbers
 - if you check and do not click next, checked box won't be saved.
 
 
